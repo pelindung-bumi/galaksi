@@ -1,0 +1,7 @@
+global:
+  redis:
+    enabled: true
+
+configs:
+  params:
+    server.insecure: true

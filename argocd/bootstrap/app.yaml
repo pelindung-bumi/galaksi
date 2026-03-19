@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argo
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    path: argocd/root
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
