@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: https://argoproj.github.io/argo-helm
+    - repoURL: https://github.com/pelindung-bumi/samudera
       chart: argo-cd
-      targetRevision: 9.4.15
+      targetRevision: argo-cd-9.4.15
       helm:
         releaseName: argocd
         valueFiles:
@@ -26,7 +26,7 @@ spec:
     namespace: argo
   syncPolicy:
     automated:
-      prune: true
+      prune: false
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
