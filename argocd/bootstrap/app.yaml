@@ -14,7 +14,7 @@ spec:
     namespace: argo
   syncPolicy:
     automated:
-      prune: false
+      prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
