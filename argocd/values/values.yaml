@@ -79,8 +79,10 @@ redis:
 
 redis-ha:
   enabled: true
+  hardAntiAffinity: false
   haproxy:
     enabled: true
+    hardAntiAffinity: false
     resources:
       requests:
         cpu: 100m
