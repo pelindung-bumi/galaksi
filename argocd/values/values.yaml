@@ -79,9 +79,11 @@ redis:
 
 redis-ha:
   enabled: true
+  replicas: 1
   hardAntiAffinity: false
   haproxy:
     enabled: true
+    replicas: 1
     hardAntiAffinity: false
     resources:
       requests:
