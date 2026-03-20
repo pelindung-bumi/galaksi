@@ -9,8 +9,9 @@ spec:
   project: default
   sources:
     - repoURL: https://github.com/pelindung-bumi/samudera
-      chart: argo-cd
+      path: charts/argo-cd
       targetRevision: argo-cd-9.4.15
+      chart: argo-cd
       helm:
         releaseName: argocd
         valueFiles:
