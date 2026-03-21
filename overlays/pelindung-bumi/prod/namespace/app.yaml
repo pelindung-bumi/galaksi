@@ -1,0 +1,7 @@
+application: namespace
+destinationNamespace: argo
+createNamespace: false
+sources:
+  - repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    path: overlays/pelindung-bumi/prod/namespace

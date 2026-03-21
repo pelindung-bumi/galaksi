@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager
+  labels:
+    environment: prod
+    cluster: pelindung-bumi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: envoy-gateway-system
+  labels:
+    environment: prod
+    cluster: pelindung-bumi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pelindung-bumi
+  labels:
+    environment: prod
+    cluster: pelindung-bumi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: observability
+  labels:
+    environment: prod
+    cluster: pelindung-bumi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rook-ceph
+  labels:
+    environment: prod
+    cluster: pelindung-bumi
