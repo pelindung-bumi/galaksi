@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespace
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  project: pelindung-bumi-prod
+  source:
+    repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    path: overlays/pelindung-bumi/prod/namespace
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

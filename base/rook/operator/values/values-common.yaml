@@ -1,0 +1,5 @@
+csi:
+  enableCSIHostNetwork: true
+  enableCephfsDriver: false
+  enableRbdDriver: true
+  enableSnat: true

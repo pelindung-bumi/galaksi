@@ -1,0 +1,22 @@
+toolbox:
+  enabled: true
+
+clusterName: rook-ceph
+
+monitoring:
+  enabled: false
+
+pspEnable: false
+
+cephClusterSpec:
+  cephVersion:
+    imagePullPolicy: IfNotPresent
+  dashboard:
+    enabled: true
+    ssl: false
+  storage:
+    useAllNodes: true
+    useAllDevices: false
+
+cephFileSystems: []
+cephObjectStores: []

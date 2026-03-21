@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pelindung-bumi
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "40"
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - git:
+        repoURL: https://github.com/pelindung-bumi/galaksi
+        revision: HEAD
+        files:
+          - path: overlays/pelindung-bumi/*/*/app.yaml
+  template:
+    metadata:
+      name: 'pelindung-bumi-{{ index .path.segments 2 }}-{{ .application }}'
+    spec:
+      project: pelindung-bumi-prod
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .destinationNamespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions: []
+      sources: []
+  templatePatch: |
+    spec:
+      sources: {{ .sources | toJson }}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        {{- if .createNamespace }}
+          - CreateNamespace=true
+        {{- end }}
