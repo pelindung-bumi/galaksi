@@ -3,6 +3,10 @@ toolbox:
 
 clusterName: rook-ceph
 
+cephImage:
+  repository: quay.io/ceph/ceph
+  tag: v19.2.3
+
 monitoring:
   enabled: false
 
@@ -10,6 +14,7 @@ pspEnable: false
 
 cephClusterSpec:
   cephVersion:
+    image: quay.io/ceph/ceph:v19.2.3
     imagePullPolicy: IfNotPresent
   dashboard:
     enabled: true
