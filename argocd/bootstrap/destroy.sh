@@ -4,7 +4,7 @@ set -euo pipefail
 
 ARGO_NAMESPACE="argo"
 
-read -r -p "This will delete Argo CD and workloads managed from namespace '${ARGO_NAMESPACE}'. Continue? [y/N] " CONFIRM
+read -r -p "This will delete Argo CD and all workloads managed from namespace '${ARGO_NAMESPACE}'. Continue? [y/N] " CONFIRM
 
 if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
   printf 'Cancelled.\n'
@@ -52,22 +52,42 @@ delete_argocd_objects() {
 }
 
 collect_managed_namespaces() {
-  if ! have_resource "applications"; then
+  {
+    kubectl get namespace -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.annotations.argocd\.argoproj\.io/tracking-id}{"\n"}{end}' 2>/dev/null \
+      | awk -F '\t' '$2 != "" {print $1}'
+
+    if have_resource "applications"; then
+      kubectl get applications.argoproj.io -n "$ARGO_NAMESPACE" -o jsonpath='{range .items[*]}{.spec.destination.namespace}{"\n"}{end}' 2>/dev/null || true
+    fi
+  } | grep -v '^$' | grep -v "^${ARGO_NAMESPACE}$" | sort -u
+}
+
+delete_crds_by_pattern() {
+  local pattern="$1"
+  mapfile -t crds < <(kubectl get crd -o name 2>/dev/null | grep -E "$pattern" || true)
+
+  if ((${#crds[@]} == 0)); then
     return 0
   fi
 
-  kubectl get applications.argoproj.io -n "$ARGO_NAMESPACE" -o jsonpath='{range .items[*]}{.spec.destination.namespace}{"\n"}{end}' 2>/dev/null \
-    | grep -v '^$' \
-    | grep -v "^${ARGO_NAMESPACE}$" \
-    | sort -u || true
+  printf 'Deleting CRDs matching pattern: %s\n' "$pattern"
+  kubectl delete "${crds[@]}" --ignore-not-found || true
 }
 
-printf 'Collecting managed namespaces from Argo CD applications...\n'
+delete_cluster_scoped_leftovers() {
+  printf 'Deleting known cluster-scoped leftovers...\n'
+  kubectl delete storageclass rook-ceph-block --ignore-not-found || true
+  kubectl delete gatewayclass --all --ignore-not-found || true
+}
+
+printf 'Collecting managed namespaces...\n'
 mapfile -t managed_namespaces < <(collect_managed_namespaces)
 
 delete_argocd_objects "applicationsets"
 delete_argocd_objects "applications"
 delete_argocd_objects "appprojects"
+
+delete_cluster_scoped_leftovers
 
 if ((${#managed_namespaces[@]} > 0)); then
   printf 'Deleting managed namespaces...\n'
@@ -84,5 +104,7 @@ clear_namespace_finalizers "$ARGO_NAMESPACE"
 
 printf 'Removing Argo CD CRDs...\n'
 kubectl delete crd applications.argoproj.io appprojects.argoproj.io applicationsets.argoproj.io argocdextensions.argoproj.io --ignore-not-found || true
+
+delete_crds_by_pattern 'gateway\.networking\.k8s\.io|gateway\.envoyproxy\.io|ceph\.rook\.io|csi\.ceph\.io'
 
 printf 'Cleanup requested. Namespace deletions may continue in background.\n'
