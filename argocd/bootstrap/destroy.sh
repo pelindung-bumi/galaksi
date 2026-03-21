@@ -15,6 +15,20 @@ have_resource() {
   kubectl api-resources --api-group=argoproj.io -o name 2>/dev/null | grep -qx "$1"
 }
 
+clear_namespace_finalizers() {
+  local namespace="$1"
+
+  if ! kubectl get namespace "$namespace" >/dev/null 2>&1; then
+    return 0
+  fi
+
+  printf 'Removing finalizers from namespace/%s...\n' "$namespace"
+  kubectl patch namespace "$namespace" --type=merge -p '{"metadata":{"finalizers":[]}}' >/dev/null 2>&1 || true
+  kubectl get namespace "$namespace" -o json 2>/dev/null \
+    | jq '.spec.finalizers=[]' \
+    | kubectl replace --raw "/api/v1/namespaces/${namespace}/finalize" -f - >/dev/null 2>&1 || true
+}
+
 delete_argocd_objects() {
   local kind="$1"
 
@@ -58,11 +72,15 @@ delete_argocd_objects "appprojects"
 if ((${#managed_namespaces[@]} > 0)); then
   printf 'Deleting managed namespaces...\n'
   kubectl delete namespace "${managed_namespaces[@]}" --ignore-not-found --wait=false || true
+  for namespace in "${managed_namespaces[@]}"; do
+    clear_namespace_finalizers "$namespace"
+  done
 fi
 
 printf 'Removing Argo CD release and namespace...\n'
 helm uninstall argocd -n "$ARGO_NAMESPACE" || true
 kubectl delete namespace "$ARGO_NAMESPACE" --ignore-not-found --wait=false || true
+clear_namespace_finalizers "$ARGO_NAMESPACE"
 
 printf 'Removing Argo CD CRDs...\n'
 kubectl delete crd applications.argoproj.io appprojects.argoproj.io applicationsets.argoproj.io argocdextensions.argoproj.io --ignore-not-found || true
