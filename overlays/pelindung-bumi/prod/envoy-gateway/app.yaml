@@ -1,6 +1,8 @@
 application: envoy-gateway
 destinationNamespace: envoy-gateway-system
 createNamespace: false
+syncOptions:
+  - ServerSideApply=true
 sources:
   - repoURL: https://github.com/pelindung-bumi/samudera
     targetRevision: envoy-gateway-1.7.1
