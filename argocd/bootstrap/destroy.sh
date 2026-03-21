@@ -36,7 +36,11 @@ delete_argocd_objects() {
     return 0
   fi
 
-  mapfile -t names < <(kubectl get "$kind" -n "$ARGO_NAMESPACE" -o name 2>/dev/null || true)
+  if [[ "$kind" == "appprojects" ]]; then
+    mapfile -t names < <(kubectl get "$kind" -n "$ARGO_NAMESPACE" -o name 2>/dev/null | grep -v '/default$' || true)
+  else
+    mapfile -t names < <(kubectl get "$kind" -n "$ARGO_NAMESPACE" -o name 2>/dev/null || true)
+  fi
 
   if ((${#names[@]} == 0)); then
     return 0
