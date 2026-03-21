@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gateway-api
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "20"
+spec:
+  project: pelindung-bumi-prod
+  source:
+    repoURL: https://github.com/pelindung-bumi/samudera
+    targetRevision: gateway-api-1.4.1
+    path: crds/gateway-api/experimental
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
