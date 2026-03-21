@@ -71,6 +71,9 @@ delete_crds_by_pattern() {
   fi
 
   printf 'Deleting CRDs matching pattern: %s\n' "$pattern"
+  for crd in "${crds[@]}"; do
+    kubectl patch "$crd" --type=merge -p '{"metadata":{"finalizers":[]}}' >/dev/null 2>&1 || true
+  done
   kubectl delete "${crds[@]}" --ignore-not-found || true
 }
 
