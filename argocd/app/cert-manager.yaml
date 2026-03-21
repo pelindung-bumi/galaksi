@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "30"
+spec:
+  project: pelindung-bumi-prod
+  sources:
+    - repoURL: https://github.com/pelindung-bumi/samudera
+      targetRevision: cert-manager-1.20.0
+      path: charts/cert-manager
+      helm:
+        releaseName: cert-manager
+        valueFiles:
+          - $values/base/cert-manager/values/values-common.yaml
+          - $values/overlays/pelindung-bumi/prod/cert-manager/values/values.yaml
+    - repoURL: https://github.com/pelindung-bumi/galaksi
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
