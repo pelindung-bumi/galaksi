@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-system
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/pelindung-bumi/samudera
+      targetRevision: argo-cd-9.4.15
+      path: charts/argo-cd
+      helm:
+        releaseName: argocd
+        valueFiles:
+          - $values/argocd/values/values.yaml
+    - repoURL: https://github.com/pelindung-bumi/galaksi
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
