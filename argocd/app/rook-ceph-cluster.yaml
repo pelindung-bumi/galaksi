@@ -6,22 +6,22 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "15"
   spec:
-  project: pelindung-bumi-prod
-  sources:
-    - repoURL: https://github.com/pelindung-bumi/samudera
-      targetRevision: rook-1.19.2
-      path: charts/rook-ceph-cluster
-      helm:
-        releaseName: rook-ceph-cluster
-        valueFiles:
-          - $values/base/rook/cluster/values/values-common.yaml
-          - $values/overlays/pelindung-bumi/prod/rook/cluster/values/values.yaml
-    - repoURL: https://github.com/pelindung-bumi/galaksi
-      targetRevision: HEAD
-      ref: values
-    - repoURL: https://github.com/pelindung-bumi/galaksi
-      targetRevision: HEAD
-      path: overlays/pelindung-bumi/prod/rook/cluster/manifests
+    project: pelindung-bumi-prod
+    sources:
+      - repoURL: https://github.com/pelindung-bumi/samudera
+        targetRevision: rook-1.19.2
+        path: charts/rook-ceph-cluster
+        helm:
+          releaseName: rook-ceph-cluster
+          valueFiles:
+            - $values/base/rook/cluster/values/values-common.yaml
+            - $values/overlays/pelindung-bumi/prod/rook/cluster/values/values.yaml
+      - repoURL: https://github.com/pelindung-bumi/galaksi
+        targetRevision: HEAD
+        ref: values
+      - repoURL: https://github.com/pelindung-bumi/galaksi
+        targetRevision: HEAD
+        path: overlays/pelindung-bumi/prod/rook/cluster/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: rook-ceph
