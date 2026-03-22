@@ -18,6 +18,9 @@ spec:
     - repoURL: https://github.com/pelindung-bumi/galaksi
       targetRevision: HEAD
       ref: values
+    - repoURL: https://github.com/pelindung-bumi/galaksi
+      targetRevision: HEAD
+      path: argocd/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: argo
@@ -27,3 +30,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - SkipDryRunOnMissingResource=true
