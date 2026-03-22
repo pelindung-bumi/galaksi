@@ -29,6 +29,36 @@ overlays/     # environment-specific values/manifests
 tmp/          # temporary local test manifests
 ```
 
+## Development shell
+
+This repo uses Nix flakes with `devenv` for the local development shell.
+
+Common tools are available from the flake, including:
+
+- `kubectl`
+- `argocd`
+- `argonaut`
+
+Enter the shell from the repo root with:
+
+```bash
+nix develop --no-pure-eval
+```
+
+If you use `direnv`, you can also allow the environment with:
+
+```bash
+direnv allow
+```
+
+After entering the shell, you can verify the tools with:
+
+```bash
+kubectl version --client
+argocd version --client
+argonaut --help
+```
+
 ## Bootstrap flow
 
 Bootstrap is designed to start from an empty cluster.
