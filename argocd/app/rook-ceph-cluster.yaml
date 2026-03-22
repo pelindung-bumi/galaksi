@@ -5,7 +5,7 @@ metadata:
   namespace: argo
   annotations:
     argocd.argoproj.io/sync-wave: "15"
-spec:
+  spec:
   project: pelindung-bumi-prod
   sources:
     - repoURL: https://github.com/pelindung-bumi/samudera
@@ -19,6 +19,9 @@ spec:
     - repoURL: https://github.com/pelindung-bumi/galaksi
       targetRevision: HEAD
       ref: values
+    - repoURL: https://github.com/pelindung-bumi/galaksi
+      targetRevision: HEAD
+      path: overlays/pelindung-bumi/prod/rook/cluster/manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: rook-ceph
@@ -28,3 +31,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - SkipDryRunOnMissingResource=true

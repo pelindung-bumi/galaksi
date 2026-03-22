@@ -1,0 +1,17 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: ceph-dashboard-http
+  namespace: rook-ceph
+spec:
+  hostnames:
+    - ceph.pelindungbumi.dev
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: ceph-dashboard-https
+  namespace: rook-ceph
+spec:
+  hostnames:
+    - ceph.pelindungbumi.dev
