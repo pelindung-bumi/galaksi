@@ -22,5 +22,7 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - name: wildcard-tls
+          - group: ""
+            kind: Secret
+            name: wildcard-tls
             namespace: envoy-gateway-system
