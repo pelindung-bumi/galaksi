@@ -1,0 +1,9 @@
+.devenv
+.direnv/
+.envrc
+
+# local scratch files
+tmp/
+
+# macOS
+.DS_Store
