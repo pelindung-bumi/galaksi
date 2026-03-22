@@ -4,7 +4,7 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    email: admin@pelindungbumi.dev 
+    email: admin@pelindungbumi.dev
     solvers:
       - selector:
           dnsZones:
