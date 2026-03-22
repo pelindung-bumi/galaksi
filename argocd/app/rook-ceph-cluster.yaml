@@ -22,13 +22,13 @@ metadata:
       - repoURL: https://github.com/pelindung-bumi/galaksi
         targetRevision: HEAD
         path: overlays/pelindung-bumi/prod/rook/cluster/manifests
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: rook-ceph
-  syncPolicy:
-    automated:
-      prune: false
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - SkipDryRunOnMissingResource=true
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: rook-ceph
+    syncPolicy:
+      automated:
+        prune: false
+        selfHeal: true
+      syncOptions:
+        - CreateNamespace=true
+        - SkipDryRunOnMissingResource=true
