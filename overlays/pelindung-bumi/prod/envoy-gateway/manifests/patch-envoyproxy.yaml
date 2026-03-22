@@ -1,0 +1,26 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: pelindung-bumi-proxy
+  namespace: envoy-gateway-system
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        type: NodePort
+        patch:
+          type: JSONMerge
+          value:
+            spec:
+              ports:
+                - name: http
+                  nodePort: 30080
+                  port: 30080
+                  protocol: TCP
+                  targetPort: 30080
+                - name: https
+                  nodePort: 30443
+                  port: 30443
+                  protocol: TCP
+                  targetPort: 30443
