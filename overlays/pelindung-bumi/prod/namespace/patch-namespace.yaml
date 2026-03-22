@@ -17,14 +17,6 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: pelindung-bumi
-  labels:
-    environment: prod
-    cluster: pelindung-bumi
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: observability
   labels:
     environment: prod
