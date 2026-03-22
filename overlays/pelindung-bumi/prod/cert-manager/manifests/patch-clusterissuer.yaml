@@ -12,3 +12,6 @@ spec:
         dns01:
           cloudflare:
             email: admin@pelindungbumi.dev
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
