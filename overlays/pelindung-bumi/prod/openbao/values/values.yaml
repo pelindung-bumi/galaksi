@@ -1,0 +1,18 @@
+server:
+  replicas: 1
+  auditStorage:
+    enabled: true
+  dataStorage:
+    enabled: true
+    size: 10Gi
+    storageClass: rook-ceph-block
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
+
+ui:
+  serviceType: ClusterIP

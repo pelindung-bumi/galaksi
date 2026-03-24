@@ -1,0 +1,5 @@
+image:
+  tag: v0.16.1
+
+serviceAccount:
+  name: external-secrets

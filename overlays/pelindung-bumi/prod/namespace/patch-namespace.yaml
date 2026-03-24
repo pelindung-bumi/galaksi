@@ -29,3 +29,19 @@ metadata:
   labels:
     environment: prod
     cluster: pelindung-bumi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openbao
+  labels:
+    environment: prod
+    cluster: pelindung-bumi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: external-secrets
+  labels:
+    environment: prod
+    cluster: pelindung-bumi
