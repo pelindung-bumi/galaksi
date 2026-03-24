@@ -24,12 +24,5 @@ server:
           disable_hostname = true
         }
 
-global:
-  enabled: true
-  openshift: false
-
-injector:
-  enabled: false
-
 ui:
   enabled: true
