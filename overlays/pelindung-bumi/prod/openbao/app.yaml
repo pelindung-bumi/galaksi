@@ -1,6 +1,8 @@
 application: openbao
 destinationNamespace: openbao
 createNamespace: true
+syncOptions:
+  - CreateNamespace=true
 sources:
   - repoURL: https://github.com/hashicorp/openbao
     targetRevision: 2.5.0

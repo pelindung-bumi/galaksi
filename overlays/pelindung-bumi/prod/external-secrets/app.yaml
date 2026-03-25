@@ -1,6 +1,8 @@
 application: external-secrets
 destinationNamespace: external-secrets
 createNamespace: true
+syncOptions:
+  - CreateNamespace=true
 sources:
   - repoURL: https://charts.external-secrets.io
     targetRevision: 0.14.0
