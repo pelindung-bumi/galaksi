@@ -36,11 +36,12 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        {{- if or .createNamespace .syncOptions }}
-        syncOptions:
         {{- if .createNamespace }}
+        syncOptions:
           - CreateNamespace=true
         {{- end }}
+        {{- if .syncOptions }}
+        syncOptions:
         {{- range .syncOptions }}
           - {{ . }}
         {{- end }}
