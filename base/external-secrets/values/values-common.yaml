@@ -1,0 +1,19 @@
+image:
+  repository: ghcr.io/external-secrets/external-secrets
+  tag: v0.16.1
+
+webhook:
+  replicaCount: 1
+
+certcontroller:
+  replicaCount: 1
+
+controller:
+  replicaCount: 1
+  args:
+    - --enable-cluster-wide-external-secrets=true
+    - --enable-namespaced-external-secrets=true
+
+serviceAccount:
+  create: true
+  name: external-secrets

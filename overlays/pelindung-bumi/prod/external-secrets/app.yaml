@@ -1,0 +1,17 @@
+application: external-secrets
+destinationNamespace: external-secrets
+createNamespace: true
+sources:
+  - repoURL: https://charts.external-secrets.io
+    targetRevision: 0.14.0
+    path: external-secrets
+    helm:
+      valueFiles:
+        - $values/base/external-secrets/values/values-common.yaml
+        - $values/overlays/pelindung-bumi/prod/external-secrets/values/values.yaml
+  - repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    ref: values
+  - repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    path: overlays/pelindung-bumi/prod/external-secrets/manifests

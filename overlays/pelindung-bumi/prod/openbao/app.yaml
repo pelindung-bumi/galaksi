@@ -1,0 +1,14 @@
+application: openbao
+destinationNamespace: openbao
+createNamespace: true
+sources:
+  - repoURL: https://github.com/hashicorp/openbao
+    targetRevision: 2.5.0
+    path: charts/openbao
+    helm:
+      valueFiles:
+        - $values/base/openbao/values/values-common.yaml
+        - $values/overlays/pelindung-bumi/prod/openbao/values/values.yaml
+  - repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    ref: values
