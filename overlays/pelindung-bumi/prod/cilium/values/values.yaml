@@ -1,6 +1,7 @@
 cluster:
   name: pelindung-bumi
 
+kubeProxyReplacement: false
 routingMode: native
 ipv4NativeRoutingCIDR: 10.42.0.0/16
 
@@ -8,10 +9,11 @@ k8sServiceHost: 10.200.0.177
 k8sServicePort: 6443
 
 enableIPv4Masquerade: true
-egressMasqueradeInterfaces: ens3
+devices: ens3
 
 bpf:
   masquerade: true
+  hostLegacyRouting: false
 
 resources:
   requests:
