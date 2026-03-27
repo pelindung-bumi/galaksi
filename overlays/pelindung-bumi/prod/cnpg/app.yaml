@@ -1,0 +1,16 @@
+application: cnpg
+destinationNamespace: cnpg-system
+createNamespace: false
+syncOptions:
+  - ServerSideApply=true
+sources:
+  - repoURL: https://github.com/pelindung-bumi/samudera
+    targetRevision: cloudnative-pg-0.27.1
+    path: charts/cloudnative-pg
+    helm:
+      valueFiles:
+        - $values/base/cnpg/values/values-common.yaml
+        - $values/overlays/pelindung-bumi/prod/cnpg/values/values.yaml
+  - repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    ref: values
