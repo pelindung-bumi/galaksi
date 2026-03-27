@@ -86,6 +86,7 @@ Static apps in `argocd/app/` are created before dynamic appset workloads.
 Current foundation apps:
 
 - `argo-system`
+- `cilium`
 - `namespace`
 - `gateway-api`
 - `cert-manager`
@@ -141,6 +142,8 @@ Examples:
 
 ## Important current behavior
 
+- `cilium` is a foundation app sourced from the vendored chart in `samudera`
+- `cilium` runs kube-proxy replacement and owns pod networking on `kube01`
 - `gateway-api` uses the `experimental` CRDs from `samudera`
 - `envoy-gateway` is appset-managed
 - `envoy-gateway` supports per-app `syncOptions` and currently uses `ServerSideApply=true`
