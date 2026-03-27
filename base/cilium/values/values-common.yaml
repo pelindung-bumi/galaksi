@@ -1,0 +1,26 @@
+ipam:
+  mode: kubernetes
+
+kubeProxyReplacement: true
+routingMode: tunnel
+
+k8sNetworkPolicy:
+  enabled: true
+
+operator:
+  replicas: 1
+
+envoy:
+  enabled: false
+
+gatewayAPI:
+  enabled: false
+
+hubble:
+  enabled: false
+
+ingressController:
+  enabled: false
+
+prometheus:
+  enabled: false

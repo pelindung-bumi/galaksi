@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+  namespace: argo
+  annotations:
+    argocd.argoproj.io/sync-wave: "8"
+spec:
+  project: pelindung-bumi-prod
+  sources:
+    - repoURL: https://github.com/pelindung-bumi/samudera
+      targetRevision: cilium-1.19.2
+      path: charts/cilium
+      helm:
+        releaseName: cilium
+        valueFiles:
+          - $values/base/cilium/values/values-common.yaml
+          - $values/overlays/pelindung-bumi/prod/cilium/values/values.yaml
+    - repoURL: https://github.com/pelindung-bumi/galaksi
+      targetRevision: HEAD
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
