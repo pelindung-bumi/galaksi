@@ -2,6 +2,7 @@ cluster:
   name: pelindung-bumi
 
 routingMode: native
+ipv4NativeRoutingCIDR: 10.42.0.0/16
 
 k8sServiceHost: 10.200.0.177
 k8sServicePort: 6443
