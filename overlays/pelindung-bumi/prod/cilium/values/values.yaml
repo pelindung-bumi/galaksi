@@ -1,8 +1,16 @@
 cluster:
   name: pelindung-bumi
 
+routingMode: native
+
 k8sServiceHost: 10.200.0.177
 k8sServicePort: 6443
+
+enableIPv4Masquerade: true
+egressMasqueradeInterfaces: ens3
+
+bpf:
+  masquerade: true
 
 resources:
   requests:
