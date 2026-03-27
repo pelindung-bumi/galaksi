@@ -1,0 +1,9 @@
+application: cnpg-cluster
+destinationNamespace: cnpg-system
+createNamespace: false
+syncOptions:
+  - ServerSideApply=true
+sources:
+  - repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    path: overlays/pelindung-bumi/prod/cnpg-cluster/manifests
