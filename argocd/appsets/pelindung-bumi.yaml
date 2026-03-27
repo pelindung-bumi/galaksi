@@ -34,7 +34,7 @@ spec:
       sources: {{ .sources | toJson }}
       syncPolicy:
         automated:
-          prune: true
+          prune: {{ if hasKey . "prune" }}{{ .prune }}{{ else }}true{{ end }}
           selfHeal: true
         {{- if or .createNamespace .syncOptions }}
         syncOptions:
