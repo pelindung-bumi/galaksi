@@ -27,3 +27,9 @@ spec:
             kind: Secret
             name: wildcard-tls
             namespace: envoy-gateway-system
+    - name: tcp-postgres
+      protocol: TCP
+      port: 5432
+      allowedRoutes:
+        namespaces:
+          from: All
