@@ -24,3 +24,8 @@ spec:
                   port: 30443
                   protocol: TCP
                   targetPort: 30443
+                - name: tcp-postgres
+                  nodePort: 30432
+                  port: 30432
+                  protocol: TCP
+                  targetPort: 30432

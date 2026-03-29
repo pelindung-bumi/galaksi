@@ -1,0 +1,15 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: tofu-state-postgres
+  namespace: cnpg-system
+spec:
+  parentRefs:
+    - name: pelindung-bumi-gateway
+      namespace: envoy-gateway-system
+      sectionName: tcp-postgres
+  rules:
+    - backendRefs:
+        - name: tofu-state-rw
+          namespace: cnpg-system
+          port: 5432
