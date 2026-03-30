@@ -1,0 +1,14 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: tofu-state
+  namespace: cnpg-system
+spec:
+  instances: 1
+  storage:
+    size: 5Gi
+    storageClass: rook-ceph-block
+  bootstrap:
+    initdb:
+      database: tofu_state
+      owner: tofu
