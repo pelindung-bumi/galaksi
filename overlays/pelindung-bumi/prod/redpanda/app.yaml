@@ -1,0 +1,9 @@
+application: redpanda
+destinationNamespace: payment-gateway
+createNamespace: false
+prune: false
+syncOptions: []
+sources:
+  - repoURL: https://github.com/pelindung-bumi/galaksi
+    targetRevision: HEAD
+    path: overlays/pelindung-bumi/prod/redpanda/manifests

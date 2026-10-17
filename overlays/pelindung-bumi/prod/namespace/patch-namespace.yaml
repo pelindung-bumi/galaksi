@@ -45,3 +45,11 @@ metadata:
   labels:
     environment: prod
     cluster: pelindung-bumi
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: payment-gateway
+  labels:
+    environment: prod
+    cluster: pelindung-bumi

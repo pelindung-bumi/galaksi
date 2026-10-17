@@ -104,6 +104,7 @@ Current appset-managed apps:
 | `envoy-gateway` | `envoy-gateway-system` | Gateway API implementation |
 | `cnpg` | `cnpg-system` | CloudNativePG operator v0.27.1 |
 | `cnpg-cluster` | `cnpg-system` | PostgreSQL cluster for OpenTofu remote state |
+| `redpanda` | `payment-gateway` | Existing single-broker Redpanda cluster, pinned by image digest |
 
 Discovery pattern:
 
@@ -172,6 +173,20 @@ Important details:
 - `rook-ceph-block` is the default `StorageClass`
 - the node must expose kernel modules through `/lib/modules/<kernel>` for CSI RBD
 - on NixOS `kube01`, this is handled from the `semesta` repo, not from this repo
+
+## Redpanda notes
+
+The production overlay adopts the existing `payment-gateway-redpanda` StatefulSet
+and its two Services without changing its selector, service name, or PVC template.
+The broker and configuration Job use the verified v26.1.5 image digest, not `latest`.
+
+A `PostSync` Job sets only `core_balancing_continuous=false` and
+`partition_autobalancing_mode=node_add` to keep the cluster in Community Edition.
+Use a full application sync: Argo CD skips hooks during selective syncs.
+
+Automatic pruning is disabled for this stateful app, and PVC retention remains
+`Retain` for both deletion and scale-down. The foundation namespace app manages
+`payment-gateway`, with namespace pruning and deletion disabled.
 
 ## Bootstrap and cleanup commands
 

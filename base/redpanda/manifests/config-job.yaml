@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: payment-gateway-redpanda-config
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+spec:
+  activeDeadlineSeconds: 120
+  backoffLimit: 2
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: Never
+      containers:
+        - name: config
+          image: docker.redpanda.com/redpandadata/redpanda:v26.1.5
+          securityContext:
+            allowPrivilegeEscalation: false
+          command:
+            - /bin/sh
+            - -ec
+          args:
+            - |
+              rpk cluster config set core_balancing_continuous false \
+                -X admin.hosts=payment-gateway-redpanda:9644
+              rpk cluster config set partition_autobalancing_mode node_add \
+                -X admin.hosts=payment-gateway-redpanda:9644
